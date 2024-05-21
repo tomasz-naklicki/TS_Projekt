@@ -6,10 +6,21 @@ from .controller import Controller
 class FeedbackLinearizationController(Controller):
     def __init__(self, Tp):
         self.model = ManiuplatorModel(Tp)
+        self.Kp = np.array([[3, 0], 
+                           [0, 3]])
+        self.Kd = np.array([[5, 0],
+                           [0, 5]])
 
     def calculate_control(self, x, q_r, q_r_dot, q_r_ddot):
         """
         Please implement the feedback linearization using self.model (which you have to implement also),
         robot state x and desired control v.
         """
-        return NotImplementedError()
+        q1, q2, q1_dot, q2_dot = x
+        q = np.array([q1, q2])
+        q_dot = np.array([q1_dot, q2_dot])
+        v = q_r_ddot
+        v = v + self.Kd @ (q_r_dot - q_dot) + self.Kp @ (q_r - q)
+        u = self.model.M(x) @ v + self.model.C(x) @ q_r_dot
+
+        return u
