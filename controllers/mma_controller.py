@@ -16,8 +16,8 @@ class MMAController(Controller):
         self.i = 0
         self.Kp = np.array([[4, 0], 
                             [0, 4]])
-        self.Kd = np.array([[7, 0],
-                            [0, 7]])
+        self.Kd = np.array([[2, 0],
+                            [0, 2]])
 
     def choose_model(self, x):
         # TODO: Implement procedure of choosing the best fitting model from self.models (by setting self.i)
